@@ -1,0 +1,46 @@
+/* Toolbar.css */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5f9ff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #dbe3ee;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    height: 60px; /* Proportional height */
+  }
+  
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .toolbar-logo {
+    height: 64px; 
+    width: auto;
+    margin-right: 12px;
+  }
+  
+  .toolbar-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    color: #1d3557;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  
+
+  .toolbar-divider {
+    height: 32px;
+    width: 2px;
+    background-color: #ccc;
+    margin: 0 16px;
+    border-radius: 1px;
+  }
+  
+  
+
+  
