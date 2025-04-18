@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const CodeBlock = require('./models/CodeBlocks');
 const http = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
+CLIENT_URL= 'https://learn-with-tom-client.onrender.com/'//learn-with-tom-client.onrender.com
 
 
 const app = express();// Create the Express app instance
-const PORT = 4001;
 const rooms = {}; // Track rooms and their participants
 const currentCodePerRoom = {}; // Stores latest code per room in RAM
 const solutionPerRoom = {}; // Stores the correct solution per room
@@ -52,18 +53,34 @@ app.get('/', (req, res) => {
 const server = http.createServer(app); // Create HTTP server from express app
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000', // Allow client origin
+    origin: CLIENT_URL, // Allow client origin
     methods: ['GET', 'POST'],
   }
 });
 
+
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+// For any route not handled by the API, serve index.html from React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
+
+
 server.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
+  console.log(`🚀 Server is live. Client is expected at: ${CLIENT_URL}`);
 });
 
 
 // Connect to MongoDB using Mongoose
-mongoose.connect('mongodb+srv://SaharSlavkin:alon!!!333@cluster0.hpgc4vd.mongodb.net/codeblocks-db?retryWrites=true&w=majority&appName=Cluster0')
+if (!process.env.MONGO_URI) {
+  console.error("❌ MONGO_URI is not defined in environment variables");
+  process.exit(1);
+}
+
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
