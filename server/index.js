@@ -58,17 +58,6 @@ const io = new Server(server, {
   }
 });
 
-
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
-
-// For any route not handled by the API, serve index.html from React
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-});
-
-
 server.listen(PORT, () => {
   console.log(`🚀 Server is live. Client is expected at: ${CLIENT_URL}`);
 });
