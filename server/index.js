@@ -7,6 +7,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
+const PORT = process.env.PORT || 4001;
 
 
 const app = express();// Create the Express app instance
