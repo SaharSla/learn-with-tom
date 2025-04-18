@@ -6,7 +6,7 @@ const CodeBlock = require('./models/CodeBlocks');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
-CLIENT_URL= 'https://learn-with-tom-client.onrender.com/'//learn-with-tom-client.onrender.com
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
 
 const app = express();// Create the Express app instance
