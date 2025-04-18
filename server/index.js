@@ -16,7 +16,10 @@ const currentCodePerRoom = {}; // Stores latest code per room in RAM
 const solutionPerRoom = {}; // Stores the correct solution per room
 
 // Enable CORS so the frontend can communicate with this backend
-app.use(cors());
+app.use(cors({
+  origin: CLIENT_URL,
+  methods: ['GET', 'POST'],
+}));
 
 // Enable JSON body parsing for incoming requests
 app.use(express.json());
