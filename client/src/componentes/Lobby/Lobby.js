@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./Lobby.css";
+import { API_BASE_URL } from '../../App'; // Importing the server base URL
+
+/*
+  Lobby Component
+
+  - Fetches list of available code blocks from the server
+  - Displays loading indicator while fetching
+  - Lists code blocks with title and description as clickable links
+*/
 
 const Lobby = () => {
   const [blocks, setBlocks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4001/api/codeblocks')
+    fetch(`${API_BASE_URL}/api/codeblocks`)
       .then((res) => res.json())
       .then((data) => {
         setBlocks(data);

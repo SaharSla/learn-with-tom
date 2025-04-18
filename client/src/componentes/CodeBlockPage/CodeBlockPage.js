@@ -6,7 +6,18 @@ import io from 'socket.io-client';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
-import './CodeBlockPage.css'; // Import component styles
+import './CodeBlockPage.css';
+import { API_BASE_URL } from '../../App'; // Importing global server base URL
+
+/*
+  CodeBlockPage Component
+
+  - Fetches a specific code block using ID from route
+  - Connects to Socket.IO server for real-time collaboration
+  - Students can edit code; mentors see code as read-only
+  - Tracks number of participants in the room
+  - Displays smiley face when student solution matches the correct answer
+*/
 
 const CodeBlockPage = () => {
   const { id } = useParams();
@@ -19,7 +30,7 @@ const CodeBlockPage = () => {
 
   // Connect to socket and handle real-time events
   useEffect(() => {
-    socketRef.current = io('http://localhost:4001');
+    socketRef.current = io(API_BASE_URL); // Use Render server URL
     socketRef.current.emit('joinRoom', id);
 
     socketRef.current.on('roleAssigned', (receivedRole) => {
@@ -40,11 +51,9 @@ const CodeBlockPage = () => {
       window.location.href = '/';
     });
 
-    // Listen for solutionCorrect event from server
     socketRef.current.on('solutionCorrect', () => {
-      setIsSolutionCorrect(true); // All students will see the smiley!
+      setIsSolutionCorrect(true);
     });
-
 
     return () => {
       socketRef.current.disconnect();
@@ -53,7 +62,7 @@ const CodeBlockPage = () => {
 
   // Fetch code block data from server
   useEffect(() => {
-    fetch(`http://localhost:4001/api/codeblocks/${id}`)
+    fetch(`${API_BASE_URL}api/codeblocks/${id}`)
       .then(res => res.json())
       .then(data => {
         setBlock(() => ({ ...data, code: data.code }));
@@ -70,20 +79,16 @@ const CodeBlockPage = () => {
 
   return (
     <div className="codeblock-page-container">
-      {/* Navigation link */}
       <Link to="/" className="back-link">← Back to Lobby</Link>
 
-      {/* Block title and description */}
       <h1 className="codeblock-title">{block.title}</h1>
       {block.description && <p className="codeblock-description">{block.description}</p>}
 
-      {/* Role badge and user counter */}
       <div className="info-bar">
         <span className={`role-badge ${role}`}>Role: {role}</span>
         <span className="user-count">🟢 {usersCounter} Students in Room</span>
       </div>
 
-      {/* Code editor view */}
       {role === 'mentor' && (
         <CodeMirror
           value={block.code}
@@ -109,7 +114,6 @@ const CodeBlockPage = () => {
             }}
             className="code-editor"
           />
-          {/* Show smiley if solution is correct */}
           {isSolutionCorrect && (
             <div className="smiley-display">😄</div>
           )}

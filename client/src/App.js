@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Lobby from './componentes/Lobby/Lobby';
 import CodeBlockPage from './componentes/CodeBlockPage/CodeBlockPage';
 import Toolbar from './componentes/Toolbar/Toolbar'; // Toolbar imported
+// Base URL for the backend server (deployed on Render)
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 /*
   App Component
