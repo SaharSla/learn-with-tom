@@ -62,7 +62,7 @@ const CodeBlockPage = () => {
 
   // Fetch code block data from server
   useEffect(() => {
-    fetch(`${API_BASE_URL}api/codeblocks/${id}`)
+    fetch(`${API_BASE_URL}/api/codeblocks/${id}`)
       .then(res => res.json())
       .then(data => {
         setBlock(() => ({ ...data, code: data.code }));
